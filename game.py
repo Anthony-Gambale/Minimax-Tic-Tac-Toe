@@ -59,3 +59,8 @@ class game:
                 return "tie"
         else:
             return winner
+    
+    def move(self, x, y, player):
+        '''fill a position on the board, unless the game is over'''
+        if self.check_win() != None:
+            self.board[y][x] = player
