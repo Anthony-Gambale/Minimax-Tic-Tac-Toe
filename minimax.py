@@ -10,9 +10,10 @@ def minimax(game, player):
     # if the current board state is the end of the game, return the score
     result = game.check_win()
     if result != None:
-        if result == "tie": return 0
-        if result == p.MINIMIZING_PLAYER: return -1
-        if result == p.MAXIMIZING_PLAYER: return 1
+        # every return has a palceholder move with it
+        if result == "tie": return [0, [0, 0]]
+        if result == p.MINIMIZING_PLAYER: return [-1, [0, 0]]
+        if result == p.MAXIMIZING_PLAYER: return [1, [0, 0]]
 
 
     # if we're the maximizing player
