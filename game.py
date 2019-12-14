@@ -1,5 +1,5 @@
 
-from player_types import p
+from player_types import *
 from minimax import *
 
 def check3(a, b, c):
@@ -64,8 +64,7 @@ class game:
         d = [ ['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']]
         for y in range(3):
             for x in range(3):
-                if self.board[y][x] == p.MINIMIZING_PLAYER: d[y][x] = "X"
-                if self.board[y][x] == p.MAXIMIZING_PLAYER: d[y][x] = "O"
+                self.board[y][x] = convert[self.board[y][x]]
         for row in d:
             for column in row:
                 print(column, end='')
@@ -84,6 +83,10 @@ class game:
         #while self.check_win() == None:
         while True:
 
+            # separate the players move from the AI's move before them
+            print()
+            print("Your turn:")
+
             # refresh (break if our refreshing returns true)
             if self.refresh(): break
 
@@ -98,3 +101,8 @@ class game:
             # have the ai move
             move = minimax(self, ai)[1]
             self.board[move[1]][move[0]] = ai
+        
+        # after the loop, say who won
+        if self.check_win() == "tie": print("tie")
+        else:
+            print(convert[self.check_win()])
