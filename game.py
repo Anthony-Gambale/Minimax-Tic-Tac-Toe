@@ -109,3 +109,4 @@ class game:
             print()
             print("winner/result:", end='')
             print(convert[self.check_win()])
+        

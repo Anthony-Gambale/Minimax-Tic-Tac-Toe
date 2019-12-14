@@ -2,6 +2,8 @@
 from game import *
 from player_types import p
 
-g = game()
+while True:
 
-g.game_loop(p.MAXIMIZING_PLAYER, p.MINIMIZING_PLAYER)
+    g = game()
+    g.game_loop(p.MAXIMIZING_PLAYER, p.MINIMIZING_PLAYER)
+    input("press any key to continue...")
