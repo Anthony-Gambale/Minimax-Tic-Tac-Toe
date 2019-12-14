@@ -2,9 +2,17 @@
 from player_types import p
 
 
-def minimax(board, player):
+def minimax(game, player):
     '''perform minimax on the given board, as the given player (maximizing or minimizing)'''
     '''return a tuple of (score, position) where score was the score and position was the move that gave that score'''
+
+
+    # if the current board state is the end of the game, return the score
+    result = game.check_win()
+    if result != None:
+        if result == "tie": return 0
+        if result == p.MINIMIZING_PLAYER: return -1
+        if result == p.MAXIMIZING_PLAYER: return 1
 
 
     # if we're the maximizing player
@@ -19,13 +27,13 @@ def minimax(board, player):
             for x in range(3):
 
                 # check if the position is empty
-                if board[y][x] == p.EMPTY:
+                if game.board[y][x] == p.EMPTY:
 
                     # move there (temporarily)
                     board[y][x] = player # player should be either p.MAXIMIZING_PLAYER or p.MINIMIZING_PLAYER
 
                     # check what its like to be here (by making he minimizing player make a move and seeing what they'd do)
-                    score_for_this_position = minimax(board, p.MINIMIZING_PLAYER)[0] # [0] because the output is (score, position)
+                    score_for_this_position = minimax(game.board, p.MINIMIZING_PLAYER)[0] # [0] because the output is (score, position)
 
                     # if its better than the current best, remember it
                     if score_for_this_position > bestScore:
@@ -51,13 +59,13 @@ def minimax(board, player):
             for x in range(3):
 
                 # check if the position is empty
-                if board[y][x] == p.EMPTY:
+                if game.board[y][x] == p.EMPTY:
 
                     # move there (temporarily)
                     board[y][x] = player # player should be either p.MAXIMIZING_PLAYER or p.MINIMIZING_PLAYER
 
                     # check what its like to be here (by making he minimizing player make a move and seeing what they'd do)
-                    score_for_this_position = minimax(board, p.MAXIMIZING_PLAYER)[0] # [0] because the output is (score, position)
+                    score_for_this_position = minimax(game.board, p.MAXIMIZING_PLAYER)[0] # [0] because the output is (score, position)
 
                     # if its better than the current best, remember it
                     if score_for_this_position < bestScore:
