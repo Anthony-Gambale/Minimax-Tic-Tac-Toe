@@ -30,7 +30,7 @@ def minimax(game, player):
                 if game.board[y][x] == p.EMPTY:
 
                     # move there (temporarily)
-                    board[y][x] = player # player should be either p.MAXIMIZING_PLAYER or p.MINIMIZING_PLAYER
+                    game.board[y][x] = player # player should be either p.MAXIMIZING_PLAYER or p.MINIMIZING_PLAYER
 
                     # check what its like to be here (by making he minimizing player make a move and seeing what they'd do)
                     score_for_this_position = minimax(game.board, p.MINIMIZING_PLAYER)[0] # [0] because the output is (score, position)
@@ -41,7 +41,7 @@ def minimax(game, player):
                         bestMove = [x, y]
                     
                     # move back to where we were
-                    board[y][x] = p.EMPTY
+                    game.board[y][x] = p.EMPTY
                     
         # return what we found is the best move and position
         return [bestScore, bestMove]
@@ -62,7 +62,7 @@ def minimax(game, player):
                 if game.board[y][x] == p.EMPTY:
 
                     # move there (temporarily)
-                    board[y][x] = player # player should be either p.MAXIMIZING_PLAYER or p.MINIMIZING_PLAYER
+                    game.board[y][x] = player # player should be either p.MAXIMIZING_PLAYER or p.MINIMIZING_PLAYER
 
                     # check what its like to be here (by making he minimizing player make a move and seeing what they'd do)
                     score_for_this_position = minimax(game.board, p.MAXIMIZING_PLAYER)[0] # [0] because the output is (score, position)
@@ -73,7 +73,7 @@ def minimax(game, player):
                         bestMove = [x, y]
                     
                     # move back to where we were
-                    board[y][x] = p.EMPTY
+                    game.board[y][x] = p.EMPTY
                     
         # return what we found is the best move and position
         return [bestScore, bestMove]
