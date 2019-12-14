@@ -92,8 +92,8 @@ class game:
             if self.refresh(): break
 
             # have the player move
-            y = choice("Please choose a row." ["top", "middle", "bottom"]) # output is 0 1 or 2
-            x = choice("Please choose a column." ["left", "middle", "right"])
+            y = choice("Please choose a row.", ["top", "middle", "bottom"]) # output is 0 1 or 2
+            x = choice("Please choose a column.", ["left", "middle", "right"])
             self.board[y][x] = human
 
             # refresh
