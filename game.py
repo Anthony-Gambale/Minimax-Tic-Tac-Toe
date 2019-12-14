@@ -107,5 +107,5 @@ class game:
         if self.check_win() == "tie": print("tie")
         else:
             print()
-            print("winner/result:")
+            print("winner/result:", end='')
             print(convert[self.check_win()])
