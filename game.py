@@ -1,6 +1,7 @@
 
 from player_types import *
 from minimax import *
+from choice import choice
 
 def check3(a, b, c):
     '''check if 3 things are all equal'''
@@ -43,7 +44,7 @@ class game:
             winner = self.board[0][2]
         
         # empty positions left?
-        board_is_full = p.EMPTY not in self.board[0] and p.EMPTY not in self.board[1] and p.EMPTY not in self.board[1]
+        board_is_full = p.EMPTY not in self.board[0] and p.EMPTY not in self.board[1] and p.EMPTY not in self.board[2]
 
         # check
         if winner == None:
@@ -64,7 +65,7 @@ class game:
         d = [ ['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']]
         for y in range(3):
             for x in range(3):
-                self.board[y][x] = convert[self.board[y][x]]
+                d[y][x] = convert[self.board[y][x]]
         for row in d:
             for column in row:
                 print(column, end='')
@@ -91,8 +92,8 @@ class game:
             if self.refresh(): break
 
             # have the player move
-            y = int(input("0, 1 or 2 for y: "))
-            x = int(input("0, 1 or 2 for x: "))
+            y = choice("Please choose a row." ["top", "middle", "bottom"]) # output is 0 1 or 2
+            x = choice("Please choose a column." ["left", "middle", "right"])
             self.board[y][x] = human
 
             # refresh
@@ -105,4 +106,6 @@ class game:
         # after the loop, say who won
         if self.check_win() == "tie": print("tie")
         else:
+            print()
+            print("winner/result:")
             print(convert[self.check_win()])
