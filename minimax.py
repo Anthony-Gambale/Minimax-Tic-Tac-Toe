@@ -1,9 +1,6 @@
 
-class p(Enum):
-    '''Enumerate all the states for positions on the board'''
-    EMPTY = 0
-    MAXIMIZING_PLAYER = 1
-    MINIMIZING_PLAYER = 2
+from player_types import p
+
 
 def minimax(board, player):
     '''perform minimax on the given board, as the given player (maximizing or minimizing)'''
@@ -35,15 +32,18 @@ def minimax(board, player):
                         bestScore = score_for_this_position
                         bestMove = [x, y]
                     
+                    # move back to where we were
+                    board[y][x] = p.EMPTY
+                    
         # return what we found is the best move and position
         return [bestScore, bestMove]
 
 
     # if we're the minimizing player
-    if player == p.MAXIMIZING_PLAYER:
+    if player == p.MINIMIZING_PLAYER:
 
         # save the best score and best position for all our different options
-        bestScore = -999999
+        bestScore = 999999
         bestMove = [0, 0] # placeholder
 
         # loop over every coordinate position in the board
@@ -57,12 +57,15 @@ def minimax(board, player):
                     board[y][x] = player # player should be either p.MAXIMIZING_PLAYER or p.MINIMIZING_PLAYER
 
                     # check what its like to be here (by making he minimizing player make a move and seeing what they'd do)
-                    score_for_this_position = minimax(board, p.MINIMIZING_PLAYER)[0] # [0] because the output is (score, position)
+                    score_for_this_position = minimax(board, p.MAXIMIZING_PLAYER)[0] # [0] because the output is (score, position)
 
                     # if its better than the current best, remember it
-                    if score_for_this_position > bestScore:
+                    if score_for_this_position < bestScore:
                         bestScore = score_for_this_position
                         bestMove = [x, y]
+                    
+                    # move back to where we were
+                    board[y][x] = p.EMPTY
                     
         # return what we found is the best move and position
         return [bestScore, bestMove]

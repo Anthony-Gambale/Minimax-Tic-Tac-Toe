@@ -1,12 +1,9 @@
 
 from game import *
+from player_types import p
 
-test = game()
+g = game()
 
-test.board = [
-    [ 1, 2, 2 ],
-    [ 1, 2, 1 ],
-    [ 1, 1, 2 ]
-]
+g.game_loop(p.MAXIMIZING_PLAYER, p.MINIMIZING_PLAYER)
 
-print(test.check_win())
+input()

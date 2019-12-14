@@ -1,16 +1,10 @@
 
-from enum import Enum
+from player_types import p
+from minimax import *
 
 def check3(a, b, c):
     '''check if 3 things are all equal'''
     return a == b and b == c
-
-
-class p(Enum):
-    '''Enumerate all the states for positions on the board'''
-    EMPTY = 0
-    MAXIMIZING_PLAYER = 1
-    MINIMIZING_PLAYER = 2
 
 
 class game:
@@ -64,3 +58,43 @@ class game:
         '''fill a position on the board, unless the game is over'''
         if self.check_win() != None:
             self.board[y][x] = player
+
+    def draw(self):
+        '''draw the contents of the board to the screen'''
+        d = [ ['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']]
+        for y in range(3):
+            for x in range(3):
+                if self.board[y][x] == p.MINIMIZING_PLAYER: d[y][x] = "X"
+                if self.board[y][x] == p.MAXIMIZING_PLAYER: d[y][x] = "O"
+        for row in d:
+            for column in row:
+                print(column, end='')
+            print()
+
+    def refresh(self):
+        '''draw the board and check if the game should be continued or not.'''
+        self.draw()
+        return self.check_win() != None # true if game is over, false if game is to be continued
+
+    def game_loop(self, human, ai):
+        '''loop through each players moves till the game is over'''
+        '''human and ai will equal p.MINIMIZING_PLAYER or p.MAXIMIZING_PLAYER'''
+
+        # if the game should be continued
+        #while self.check_win() == None:
+        while True:
+
+            # refresh (break if our refreshing returns true)
+            if self.refresh(): break
+
+            # have the player move
+            y = int(input("0, 1 or 2 for y: "))
+            x = int(input("0, 1 or 2 for x: "))
+            self.board[y][x] = human
+
+            # refresh
+            if self.refresh(): break
+
+            # have the ai move
+            move = minimax(self.board, ai)[1]
+            self.board[move[1]][move[0]] = ai
