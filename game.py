@@ -62,6 +62,8 @@ class game:
 
     def draw(self):
         '''draw the contents of the board to the screen'''
+        print()
+        print()
         d = [ ['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']]
         for y in range(3):
             for x in range(3):
@@ -84,16 +86,16 @@ class game:
         #while self.check_win() == None:
         while True:
 
-            # separate the players move from the AI's move before them
-            print()
-            print("Your turn:")
-
             # refresh (break if our refreshing returns true)
             if self.refresh(): break
 
             # have the player move
             y = choice("Please choose a row.", ["top", "middle", "bottom"]) # output is 0 1 or 2
             x = choice("Please choose a column.", ["left", "middle", "right"])
+            while self.board[y][x] != p.EMPTY:
+                print("That spot isn't empty.")
+                y = choice("Please choose a row.", ["top", "middle", "bottom"]) # output is 0 1 or 2
+                x = choice("Please choose a column.", ["left", "middle", "right"])
             self.board[y][x] = human
 
             # refresh
@@ -109,4 +111,3 @@ class game:
             print()
             print("winner/result:", end='')
             print(convert[self.check_win()])
-        
