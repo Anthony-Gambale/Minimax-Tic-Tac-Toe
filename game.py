@@ -96,5 +96,5 @@ class game:
             if self.refresh(): break
 
             # have the ai move
-            move = minimax(self.board, ai)[1]
+            move = minimax(self, ai)[1]
             self.board[move[1]][move[0]] = ai
