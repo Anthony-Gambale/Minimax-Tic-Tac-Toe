@@ -82,11 +82,8 @@ class game:
         '''loop through each players moves till the game is over'''
         '''human and ai will equal p.MINIMIZING_PLAYER or p.MAXIMIZING_PLAYER'''
 
-        # find out if the player wants to go first
-        first = choice("Would you like to go first?", ["no", "yes"])
-
         # let the player go first if they wish
-        if first:
+        if choice("Would you like to go first?", ["no", "yes"]):
             self.refresh()
             y = choice("Please choose a row.", ["top", "middle", "bottom"]) # output is 0 1 or 2
             x = choice("Please choose a column.", ["left", "middle", "right"])
