@@ -82,11 +82,29 @@ class game:
         '''loop through each players moves till the game is over'''
         '''human and ai will equal p.MINIMIZING_PLAYER or p.MAXIMIZING_PLAYER'''
 
+        # find out if the player wants to go first
+        first = choice("Would you like to go first?", ["no", "yes"])
+
+        # let the player go first if they wish
+        if first:
+            self.refresh()
+            y = choice("Please choose a row.", ["top", "middle", "bottom"]) # output is 0 1 or 2
+            x = choice("Please choose a column.", ["left", "middle", "right"])
+            while self.board[y][x] != p.EMPTY:
+                print("That spot isn't empty.")
+                y = choice("Please choose a row.", ["top", "middle", "bottom"]) # output is 0 1 or 2
+                x = choice("Please choose a column.", ["left", "middle", "right"])
+            self.board[y][x] = human
+
         # if the game should be continued
         #while self.check_win() == None:
         while True:
 
-            # refresh (break if our refreshing returns true)
+            # have the ai move
+            move = minimax(self, ai)[1]
+            self.board[move[1]][move[0]] = ai
+
+            # refresh
             if self.refresh(): break
 
             # have the player move
@@ -100,10 +118,6 @@ class game:
 
             # refresh
             if self.refresh(): break
-
-            # have the ai move
-            move = minimax(self, ai)[1]
-            self.board[move[1]][move[0]] = ai
         
         # after the loop, say who won
         if self.check_win() == "tie": print("tie")
