@@ -129,12 +129,12 @@ class game:
         self.board[move[1]][move[0]] = player
 
 
-    def game_loop(self, human, ai):
+    def game_loop_no_gui(self, human, ai):
         '''loop through each players moves till the game is over'''
         '''human and ai will equal p.MINIMIZING_PLAYER or p.MAXIMIZING_PLAYER'''
 
         # let the player go first if they wish
-        if choice("Would you like to go first?", ["no", "yes"]):
+        if choice("Would you like to go first or second?", ["second", "first"]):
             self.refresh()
             y = choice("Please choose a row.", ["top", "middle", "bottom"]) # output is 0 1 or 2
             x = choice("Please choose a column.", ["left", "middle", "right"])
