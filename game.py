@@ -2,6 +2,7 @@
 from player_types import *
 from minimax import *
 from choice import choice
+import pygame as pyg
 
 def check3(a, b, c):
     '''check if 3 things are all equal'''
@@ -10,6 +11,7 @@ def check3(a, b, c):
 
 class game:
     '''This class will handle a single game of tictactoe.'''
+
 
     def __init__(self):
         '''init the board and the players'''
@@ -20,6 +22,7 @@ class game:
             [ p.EMPTY, p.EMPTY, p.EMPTY ],
             [ p.EMPTY, p.EMPTY, p.EMPTY ]
         ]
+
 
     def check_win(self):
         '''check if there is a winner, it is a tie, or the game should continue.'''
@@ -55,10 +58,41 @@ class game:
         else:
             return winner
     
+
     def move(self, x, y, player):
         '''fill a position on the board, unless the game is over'''
         if self.check_win() != None:
             self.board[y][x] = player
+
+
+    def draw_gui(self, screen, width, height):
+        '''for drawing the game board to the screen'''
+        '''b is the board (2D array of positions); s is the screen (pygame.display.set_mode thing)'''
+        # set some variables
+        b = self.board
+        draw_color = (0, 0, 0)
+        # fill the screen
+        screen.fill((255, 255, 255))
+        # draw the grid
+        pyg.draw.line(screen, draw_color, (0, height/3), (width, height/3), 2)
+        pyg.draw.line(screen, draw_color, (0, 2*height/3), (width, 2*height/3), 2)
+        pyg.draw.line(screen, draw_color, (width/3, 0), (width/3, height), 2)
+        pyg.draw.line(screen, draw_color, (2*width/3, 0), (2*width/3, height), 2)
+
+        for y in range(3):
+            for x in range(3):
+                cell_x = round((x * width/3) + width/6)
+                cell_y = round((y * height/3) + height/6)
+                cell_pos = (cell_x, cell_y)
+                # draw the circles
+                if convert[b[y][x]] == "O":
+                    pyg.draw.circle(screen, draw_color, cell_pos, round(width/9), 3) # relies on width and height being equal
+                # draw the crosses
+                if convert[b[y][x]] == "X":
+                    buffer = width/(3*4) # width/(3*x) will be 1/x of a cell width
+                    pyg.draw.line(screen, draw_color, (cell_x - buffer, cell_y - buffer), (cell_x + buffer, cell_y + buffer), 5)
+                    pyg.draw.line(screen, draw_color, (cell_x - buffer, cell_y + buffer), (cell_x + buffer, cell_y - buffer), 5)
+
 
     def draw(self):
         '''draw the contents of the board to the screen'''
@@ -73,10 +107,27 @@ class game:
                 print(column, end='')
             print()
 
+
     def refresh(self):
         '''draw the board and check if the game should be continued or not.'''
         self.draw()
         return self.check_win() != None # true if game is over, false if game is to be continued
+
+
+    def player_move_no_gui(self, player):
+        y = choice("Please choose a row.", ["top", "middle", "bottom"]) # output is 0 1 or 2
+        x = choice("Please choose a column.", ["left", "middle", "right"])
+        while self.board[y][x] != p.EMPTY:
+            print("That spot isn't empty.")
+            y = choice("Please choose a row.", ["top", "middle", "bottom"]) # output is 0 1 or 2
+            x = choice("Please choose a column.", ["left", "middle", "right"])
+        self.board[y][x] = player
+
+
+    def ai_move(self, player):
+        move = minimax(self, player)[1]
+        self.board[move[1]][move[0]] = player
+
 
     def game_loop(self, human, ai):
         '''loop through each players moves till the game is over'''
@@ -98,20 +149,13 @@ class game:
         while True:
 
             # have the ai move
-            move = minimax(self, ai)[1]
-            self.board[move[1]][move[0]] = ai
+            self.ai_move(ai)
 
             # refresh
             if self.refresh(): break
 
             # have the player move
-            y = choice("Please choose a row.", ["top", "middle", "bottom"]) # output is 0 1 or 2
-            x = choice("Please choose a column.", ["left", "middle", "right"])
-            while self.board[y][x] != p.EMPTY:
-                print("That spot isn't empty.")
-                y = choice("Please choose a row.", ["top", "middle", "bottom"]) # output is 0 1 or 2
-                x = choice("Please choose a column.", ["left", "middle", "right"])
-            self.board[y][x] = human
+            self.player_move_no_gui(human)
 
             # refresh
             if self.refresh(): break
