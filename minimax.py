@@ -37,7 +37,7 @@ def minimax(game, player):
                     score_for_this_position = minimax(game, p.MINIMIZING_PLAYER)[0] # [0] because the output is (score, position)
 
                     # if its better than the current best, remember it
-                    if score_for_this_position > bestScore:
+                    if score_for_this_position >= bestScore:
                         bestScore = score_for_this_position
                         bestMove = [x, y]
                     
@@ -69,7 +69,7 @@ def minimax(game, player):
                     score_for_this_position = minimax(game, p.MAXIMIZING_PLAYER)[0] # [0] because the output is (score, position)
 
                     # if its better than the current best, remember it
-                    if score_for_this_position < bestScore:
+                    if score_for_this_position <= bestScore:
                         bestScore = score_for_this_position
                         bestMove = [x, y]
                     
