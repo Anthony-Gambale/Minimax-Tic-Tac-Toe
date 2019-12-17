@@ -6,8 +6,10 @@ import pygame as pyg
 from math import floor
 import time
 
+
 # initialize pygame
 pyg.init()
+
 
 # some starting parameters
 width = 400
@@ -19,6 +21,7 @@ red = (255, 0, 0)
 text_color = red
 screen.fill(white)
 pyg.display.set_caption('TicTacToe (minimax)')
+
 
 # init the game itself and some other tings
 human = p.MAXIMIZING_PLAYER
