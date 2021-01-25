@@ -33,7 +33,7 @@ def minimax(game, player):
                     # move there (temporarily)
                     game.board[y][x] = player # player should be either p.MAXIMIZING_PLAYER or p.MINIMIZING_PLAYER
 
-                    # check what its like to be here (by making he minimizing player make a move and seeing what they'd do)
+                    # check what its like to be here (by making the minimizing player make a move and seeing what they'd do)
                     score_for_this_position = minimax(game, p.MINIMIZING_PLAYER)[0] # [0] because the output is (score, position)
 
                     # if its better than the current best, remember it
